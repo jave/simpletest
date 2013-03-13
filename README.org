@@ -1,0 +1,11 @@
+* simple math tutorial test for kids
+its supposed to work a bit like chatting with a bot
+and could maybe be elnodeified
+
+i looked around for an existing solution but didnt find any that
+wasnt replete with jumping penguins, flash animations, or
+advertisements.
+
+so far my son hates it and rather do pen and paper tests, but thats
+good also right?
+
