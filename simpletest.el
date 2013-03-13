@@ -12,7 +12,7 @@
          (b (random 11))
          (op (nth (random 3) '((+ "+") (* "*") (- "-")))))
     (setq mtn-exercise-answer (apply (car op) (list  a b)))
-    (format "%d %s %d = " a (cadr  op) b )))
+    (format "%10s = " (format "%d %s %d " a (cadr  op) b ))))
 
 (defun mtn-make-exercise ()
   (let ( (x (random 10)))
@@ -26,30 +26,42 @@
          (c ( * a b)))
     
     (setq mtn-exercise-answer b)
-    (format "%d %s %d = " c "/" a )))
+    (format "%10s = " (format "%d %s %d " c "/" a ))))
 
 
 (defun mtn-insert-exercise ()
-  (insert  (propertize (format "%02d: " mtn-current-exercise) 
-                       'font-lock-face '(:foreground "grey")
-                       )
-           (propertize  (mtn-make-exercise)
-                       'font-lock-face '(:foreground "yellow")
-                       )))
+  (insert
+   (propertize 
+    (concat 
+     (propertize (format "%02d: " mtn-current-exercise) 
+                 'font-lock-face '(:foreground "grey")
+                 
+                 )
+     (propertize  (mtn-make-exercise)
+                  'font-lock-face '(:foreground "yellow")
+                  'read-only t                       
+                  ))
+    'read-only t
+    'rear-nonsticky t)
+   ))
 
 (defun mtn-start-exercise ()
   (interactive)
+  (let ( (inhibit-read-only t))
+    (erase-buffer))
   (setq mtn-current-exercise 1)
   (mtn-insert-exercise)
   )
 
 (defun mtn-correct-reply ()
   (interactive)
-  (if  (= mtn-exercise-answer (thing-at-point 'number))
-      (insert            (propertize " R \n"
-                       'font-lock-face '(:foreground "green")))
-          (insert            (propertize " F \n"
-                       'font-lock-face '(:foreground "red"))))
+  (let ((ok (= mtn-exercise-answer (thing-at-point 'number))))
+    (indent-to-column 30)
+    (insert (propertize 
+             (if  ok
+                 (propertize " R \n" 'font-lock-face '(:foreground "green"))
+               (propertize " F \n" 'font-lock-faces '(:foreground "red")))
+             'read-only t 'rear-nonsticky t)))
   (setq mtn-current-exercise (+ mtn-current-exercise 1))
   (mtn-insert-exercise))
 
