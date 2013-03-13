@@ -7,12 +7,15 @@
 (defvar mtn-current-exercise)
 
 
+(defun mtn-format-exercise (a opstr b)
+  (format "%10s = " (format "%d %s %d " a opstr b ))  )
+
 (defun mtn-make-exercise-nodiv ()
   (let ( (a (random 11))
          (b (random 11))
          (op (nth (random 3) '((+ "+") (* "*") (- "-")))))
     (setq mtn-exercise-answer (apply (car op) (list  a b)))
-    (format "%10s = " (format "%d %s %d " a (cadr  op) b ))))
+    (mtn-format-exercise  a (cadr  op) b )))
 
 (defun mtn-make-exercise ()
   (let ( (x (random 10)))
@@ -24,9 +27,8 @@
   (let* ( (a (+ 1 (random 10)))
          (b (random 11))
          (c ( * a b)))
-    
     (setq mtn-exercise-answer b)
-    (format "%10s = " (format "%d %s %d " c "/" a ))))
+        (mtn-format-exercise   c "/" a )))
 
 
 (defun mtn-insert-exercise ()
@@ -35,7 +37,6 @@
     (concat 
      (propertize (format "%02d: " mtn-current-exercise) 
                  'font-lock-face '(:foreground "grey")
-                 
                  )
      (propertize  (mtn-make-exercise)
                   'font-lock-face '(:foreground "yellow")
