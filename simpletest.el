@@ -10,25 +10,48 @@
 (defun mtn-format-exercise (a opstr b)
   (format "%10s = " (format "%d %s %d " a opstr b ))  )
 
-(defun mtn-make-exercise-nodiv ()
-  (let ( (a (random 11))
-         (b (random 11))
-         (op (nth (random 3) '((+ "+") (* "*") (- "-")))))
-    (setq mtn-exercise-answer (apply (car op) (list  a b)))
-    (mtn-format-exercise  a (cadr  op) b )))
-
 (defun mtn-make-exercise ()
-  (let ( (x (random 10)))
+  (let ( (x (random 4)))
     (cond 
-     ((= x 0) (mtn-make-exercise-div))
-     (t (mtn-make-exercise-nodiv)))))
+     ((= x 0) (mtn-make-exercise-/))
+     ((= x 1) (mtn-make-exercise-+))
+     ((= x 2) (mtn-make-exercise--))
+     ((= x 3) (mtn-make-exercise-*))
+    )))
 
-(defun mtn-make-exercise-div ()
+(defun mtn-make-exercise-/ ()
   (let* ( (a (+ 1 (random 10)))
          (b (random 11))
          (c ( * a b)))
     (setq mtn-exercise-answer b)
         (mtn-format-exercise   c "/" a )))
+
+
+(defun mtn-make-exercise-* ()
+  (let ( (a (random 11))
+         (b (random 11)))
+    (setq mtn-exercise-answer  (*  a b))
+    (mtn-format-exercise  a "*" b )))
+
+(defun mtn-make-exercise-+ ()
+  (let ( (a (random 21))
+         (b (random 21)))
+    (setq mtn-exercise-answer  (+  a b))
+    (mtn-format-exercise  a "+" b )))
+
+(defun mtn-make-exercise-- ()
+  (let ( (a (random 21))
+         (b (random 11)))
+    (setq mtn-exercise-answer  (-  a b))
+    (mtn-format-exercise  a "-" b )))
+
+;;this was excessively clever:
+;; (defun mtn-make-exercise-nodiv ()
+;;   (let ( (a (random 11))
+;;          (b (random 11))
+;;          (op (nth (random 3) '((+ "+") (* "*") (- "-")))))
+;;     (setq mtn-exercise-answer (apply (car op) (list  a b)))
+;;     (mtn-format-exercise  a (cadr  op) b )))
 
 
 (defun mtn-insert-exercise ()
@@ -48,8 +71,12 @@
 
 (defun mtn-start-exercise ()
   (interactive)
+  (switch-to-buffer (get-buffer-create "*simpletest*"))
+  (mtn-mode)
   (let ( (inhibit-read-only t))
     (erase-buffer))
+  (insert "\n");;this is a workaround for thing-at-point
+  (goto-char (point-min))
   (setq mtn-current-exercise 1)
   (mtn-insert-exercise)
   )
