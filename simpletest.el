@@ -18,14 +18,14 @@
      ((= x 1) (mtn-make-exercise-+))
      ((= x 2) (mtn-make-exercise--))
      ((= x 3) (mtn-make-exercise-*))
-    )))
+     )))
 
 (defun mtn-make-exercise-/ ()
   (let* ( (a (+ 1 (random 10)))
-         (b (random 11))
-         (c ( * a b)))
+          (b (random 11))
+          (c ( * a b)))
     (setq mtn-exercise-answer b)
-        (mtn-format-exercise   c "/" a )))
+    (mtn-format-exercise   c "/" a )))
 
 
 (defun mtn-make-exercise-* ()
@@ -42,17 +42,9 @@
 
 (defun mtn-make-exercise-- ()
   (let* ( (a (random 21))
-         (b (random (+ a 1))))
+          (b (random (+ a 1))))
     (setq mtn-exercise-answer  (-  a b))
     (mtn-format-exercise  a "-" b )))
-
-;;this was excessively clever:
-;; (defun mtn-make-exercise-nodiv ()
-;;   (let ( (a (random 11))
-;;          (b (random 11))
-;;          (op (nth (random 3) '((+ "+") (* "*") (- "-")))))
-;;     (setq mtn-exercise-answer (apply (car op) (list  a b)))
-;;     (mtn-format-exercise  a (cadr  op) b )))
 
 
 (defun mtn-insert-exercise ()
@@ -62,20 +54,16 @@
    " "
    )
   (let ((w (widget-create 'editable-field
-                                          :size 5
-                                          ;;                 :format "val: %v " ; Text after the field!
-                                          ""
-
-                                          
-                                          )))
-    (widget-put w
-                :action 'mtn-correct-reply)
-    (widget-put  w
-                           :answer mtn-exercise-answer))
+                          :size 5
+                          ""
+                          )))
+    (widget-put w :action 'mtn-correct-reply)
+    (widget-put w :exercise-number mtn-current-exercise)
+    (widget-put w :answer mtn-exercise-answer))
   (widget-insert " ")
   (widget-setup);;
   (widget-backward 1)
-)
+  )
 
 (defun mtn-field-edited (widget &rest ignore)
   (message "field: %s" widget))
@@ -96,19 +84,26 @@
 
 (defun mtn-correct-reply (&rest args)
   (interactive)
-  (let ((ok (= (widget-get (widget-at) :answer) (string-to-number (widget-value (widget-at))))))
+  (let ((ok (= (widget-get (widget-at) :answer) (string-to-number (widget-value (widget-at)))))
+        (exercise-number (widget-get (widget-at) :exercise-number)))
     (move-end-of-line 1)
-    ;;(indent-to-column 30)
+
     (widget-insert 
-                   (if  ok
-                       (propertize      " R \n"  'face font-lock-builtin-face)
-                     (propertize      " F \n"  'face font-lock-keyword-face) )
-                   )
-      (widget-setup);;
-  (setq mtn-current-exercise (+ mtn-current-exercise 1))
-  (mtn-insert-exercise)))
+     (if  ok
+         (propertize      " R "  'face font-lock-builtin-face)
+       (propertize      " F "  'face font-lock-keyword-face) )
+     )
+    ;;(widget-setup);;
+    (if (= exercise-number mtn-current-exercise)
+        (progn 
+          (setq mtn-current-exercise (+ mtn-current-exercise 1))
+          (widget-insert "\n")
+          (mtn-insert-exercise))
+      (widget-forward 1))))
 
 (define-derived-mode mtn-mode text-mode "simple math test mode")
 
 (define-key mtn-mode-map
   "\r" 'mtn-correct-reply)
+(define-key mtn-mode-map
+  " " 'mtn-correct-reply)
