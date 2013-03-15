@@ -4,7 +4,7 @@
 
 (require 'widget)
 
-(defvar mtn-exercise-answer)
+;;(defvar mtn-exercise-answer)
 (defvar mtn-current-exercise)
 
 
@@ -24,42 +24,39 @@
   (let* ( (a (+ 1 (random 10)))
           (b (random 11))
           (c ( * a b)))
-    (setq mtn-exercise-answer b)
-    (mtn-format-exercise   c "/" a )))
+    (list b (mtn-format-exercise   c "/" a ))))
 
 
 (defun mtn-make-exercise-* ()
   (let ( (a (random 11))
          (b (random 11)))
-    (setq mtn-exercise-answer  (*  a b))
-    (mtn-format-exercise  a "*" b )))
+    (list (*  a b)  (mtn-format-exercise  a "*" b ))))
 
 (defun mtn-make-exercise-+ ()
   (let ( (a (random 21))
          (b (random 21)))
-    (setq mtn-exercise-answer  (+  a b))
-    (mtn-format-exercise  a "+" b )))
+    (list (+  a b) (mtn-format-exercise  a "+" b ))))
 
 (defun mtn-make-exercise-- ()
   (let* ( (a (random 21))
           (b (random (+ a 1))))
-    (setq mtn-exercise-answer  (-  a b))
-    (mtn-format-exercise  a "-" b )))
+    (list (-  a b) (mtn-format-exercise  a "-" b ))))
 
 
 (defun mtn-insert-exercise ()
-  (widget-insert
-   (propertize  (format "%02d: " mtn-current-exercise )  'face font-lock-keyword-face)
-   (propertize     (mtn-make-exercise)  'face font-lock-string-face)
-   " "
-   )
-  (let ((w (widget-create 'editable-field
-                          :size 5
-                          ""
-                          )))
-    (widget-put w :action 'mtn-correct-reply)
-    (widget-put w :exercise-number mtn-current-exercise)
-    (widget-put w :answer mtn-exercise-answer))
+  (let ((ex (mtn-make-exercise)))
+    (widget-insert
+     (propertize  (format "%02d: " mtn-current-exercise )  'face font-lock-keyword-face)
+     (propertize     (cadr ex)  'face font-lock-string-face)
+     " "
+     )
+    (let ((w (widget-create 'editable-field
+                            :size 5
+                            ""
+                            )))
+      (widget-put w :action 'mtn-correct-reply)
+      (widget-put w :exercise-number mtn-current-exercise)
+      (widget-put w :answer (car ex))))
   (widget-insert "    ")
   (widget-setup);;
   (widget-backward 1)
@@ -111,3 +108,26 @@
   "\r" 'mtn-correct-reply)
 (define-key mtn-mode-map
   " " 'mtn-correct-reply)
+
+;;;;;;;;;;;;;;;;;;;
+;;stuff for generating pen and paper exercises
+
+(defun mtn-paper-gen ()
+  (interactive)
+(insert "\\documentclass{amsart}
+\\begin{document}
+\\begin{tabular}{rr|llll}
+")  
+  (loop for i from 1 to 30 do
+        (let ((ex (mtn-make-exercise)))
+          (insert (cadr ex))
+          (insert "&          &")
+          (insert (number-to-string (car ex)))
+          (insert "\\\\\n")
+
+          ))
+(insert "\\end{tabular}
+\\end{document}
+")
+
+  )
