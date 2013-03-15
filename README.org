@@ -16,12 +16,13 @@ You start out like this:
 
 then you get a buffer like this:
 
-
+#+BEGIN_SRC 
   01:     5 + 0  =  5      
+#+END_SRC
 
 and after answering questions for a while, it looks like this:
 
-#+begin_src 
+#+BEGIN_SRC 
   01:     5 + 0  =  5      R 
   02:    13 - 2  =  11     R 
   03:    3 + 12  =  15     R 
@@ -44,18 +45,20 @@ and after answering questions for a while, it looks like this:
   20:    42 / 7  =  6      R 
   21:   19 + 10  =  29     R 
   22:     4 / 4  =           
-#+end_src
+#+END_SRC
 
 theres colours and stuff in the live version!
 
 If you make a misstake you get an "F"
 
+#+BEGIN_SRC 
   08:     0 * 9  =  9      F
-
+#+END_SRC
 you can go back and correct your answer so you get an "R"
 
+#+BEGIN_SRC 
   08:     0 * 9  =  0      R
-
+#+END_SRC
 ** paper exercises
 You can also generate printed exercises.
 
