@@ -11,8 +11,8 @@
 (defun mtn-format-exercise (a opstr b)
   (format "%10s = " (format "%d %s %d " a opstr b ))  )
 
-(defun mtn-make-exercise ()
-  (let ( (x (random 4)))
+(defun mtn-make-exercise (&optional xx)
+  (let ( (x (or xx (random 4))))
     (cond 
      ((= x 0) (mtn-make-exercise-/))
      ((= x 1) (mtn-make-exercise-+))
@@ -120,14 +120,16 @@
 \\setlength{\\tabcolsep}{25pt}
 \\begin{tabular}{rr|llll}
 ")  
-  (loop for i from 1 to 30 do
-        (let ((ex (mtn-make-exercise)))
-          (insert (cadr ex))
-          (insert "&          &")
-          (insert (number-to-string (car ex)))
-          (insert "\\\\\n")
+  (loop for i from 0 to 3 do
+        (loop for j from 0 to 10 do
+              (let ((ex (mtn-make-exercise i)))
+                (insert (cadr ex))
+                (insert "&          &")
+                (insert (number-to-string (car ex)))
+                (insert "\\\\\n")
 
-          ))
+                ))
+        (insert "\\hline\n"))
 (insert "\\end{tabular}
 \\end{document}
 ")
