@@ -9,41 +9,54 @@ advertisements.
 so far my son hates it and rather do pen and paper tests, but thats
 good also right?
 
-** example
+** example session
 You start out like this:
-01:     5 + 0  =  5      
+
+=m-x mtn-start-exercise=
+
+then you get a buffer like this:
+
+
+  01:     5 + 0  =  5      
 
 and after answering questions for a while, it looks like this:
 
-01:     5 + 0  =  5      R 
-02:    13 - 2  =  11     R 
-03:    3 + 12  =  15     R 
-04:    40 / 8  =  5      R 
-05:     3 * 9  =  27     R 
-06:     5 - 5  =  0      R 
-07:     6 * 2  =  12     R 
-08:     0 * 9  =  0      R 
-09:     8 * 2  =  16     R 
-10:     6 + 3  =  9      R 
-11:     3 * 2  =  6      R 
-12:     1 - 0  =  1      R 
-13:     1 * 8  =  8      R 
-14:     7 - 3  =  4      R 
-15:   15 + 11  =  26     R 
-16:     1 * 5  =  5      R 
-17:     3 - 1  =  2      R 
-18:    5 * 10  =  50     R 
-19:    12 - 7  =  5      R 
-20:    42 / 7  =  6      R 
-21:   19 + 10  =  29     R 
-22:     4 / 4  =           
+  01:     5 + 0  =  5      R 
+  02:    13 - 2  =  11     R 
+  03:    3 + 12  =  15     R 
+  04:    40 / 8  =  5      R 
+  05:     3 * 9  =  27     R 
+  06:     5 - 5  =  0      R 
+  07:     6 * 2  =  12     R 
+  08:     0 * 9  =  0      R 
+  09:     8 * 2  =  16     R 
+  10:     6 + 3  =  9      R 
+  11:     3 * 2  =  6      R 
+  12:     1 - 0  =  1      R 
+  13:     1 * 8  =  8      R 
+  14:     7 - 3  =  4      R 
+  15:   15 + 11  =  26     R 
+  16:     1 * 5  =  5      R 
+  17:     3 - 1  =  2      R 
+  18:    5 * 10  =  50     R 
+  19:    12 - 7  =  5      R 
+  20:    42 / 7  =  6      R 
+  21:   19 + 10  =  29     R 
+  22:     4 / 4  =           
 
 theres colours and stuff in the live version!
 
 If you make a misstake you get an "F"
 
-08:     0 * 9  =  9      F
+  08:     0 * 9  =  9      F
 
 you can go back and correct your answer so you get an "R"
 
-08:     0 * 9  =  0      R
+  08:     0 * 9  =  0      R
+
+** paper exercises
+You can also generate printed exercises.
+
+=mtn-paper-gen=
+
+creates a latex buffer that you can then print using Emacs Latex commands.
