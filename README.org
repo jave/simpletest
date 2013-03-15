@@ -1,4 +1,4 @@
-* simple math tutorial test for kids
+* simple math tutorial test for kids with Emacs
 its supposed to work a bit like chatting with a bot
 and could maybe be elnodeified
 
