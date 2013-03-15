@@ -114,8 +114,10 @@
 
 (defun mtn-paper-gen ()
   (interactive)
+  (erase-buffer)
 (insert "\\documentclass{amsart}
 \\begin{document}
+\\setlength{\\tabcolsep}{25pt}
 \\begin{tabular}{rr|llll}
 ")  
   (loop for i from 1 to 30 do
