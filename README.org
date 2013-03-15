@@ -21,6 +21,7 @@ then you get a buffer like this:
 
 and after answering questions for a while, it looks like this:
 
+#+begin_src 
   01:     5 + 0  =  5      R 
   02:    13 - 2  =  11     R 
   03:    3 + 12  =  15     R 
@@ -43,6 +44,7 @@ and after answering questions for a while, it looks like this:
   20:    42 / 7  =  6      R 
   21:   19 + 10  =  29     R 
   22:     4 / 4  =           
+#+end_src
 
 theres colours and stuff in the live version!
 
