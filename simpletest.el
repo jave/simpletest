@@ -60,7 +60,7 @@
     (widget-put w :action 'mtn-correct-reply)
     (widget-put w :exercise-number mtn-current-exercise)
     (widget-put w :answer mtn-exercise-answer))
-  (widget-insert " ")
+  (widget-insert "    ")
   (widget-setup);;
   (widget-backward 1)
   )
@@ -88,6 +88,10 @@
         (exercise-number (widget-get (widget-at) :exercise-number)))
     (move-end-of-line 1)
 
+    (let ((inhibit-read-only t)
+	(inhibit-modification-hooks t))
+    (delete-backward-char 3))
+  
     (widget-insert 
      (if  ok
          (propertize      " R "  'face font-lock-builtin-face)
